@@ -1,0 +1,11 @@
+We have target sequencing datasets for a group of samples. We want to collect the tumor purity information. The issue is that we don't have the matched normal sample. We found a package 'PureCN' which claims can infer tumor purity without matched control (https://www.bioconductor.org/packages/devel/bioc/vignettes/PureCN/inst/doc/Quick.html). We set an automatic pipeline to run the package on a largeset of samples starting from fastq files.
+1. FastqQC is used to evluate the quality of the raw data. We found adapter contamination is a general problem
+2. We run cutadpt to filter reads contaminated by adapter. At the same time we used inhouse code to filter low quality reads and totally the same reads.
+3. We rerun FastqQC and found that we don't have adapter contamination issue anymore
+4. We run bwa to align the reads
+5. Duplicated reads are filtered
+6. reads quality recalibration
+7. run samtools mpileup
+8. extract coverage information for CNV detection
+9. run purecn to infer purity and ploidty
+ 
